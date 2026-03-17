@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>虾</title>
+<style>
+  h1 {
+    font-family: "FangSong", "Fang Song Ti", serif;
+  font-size: 2.5rem;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #111;
+    font-family: monospace;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: background 1s;
+  }
+
+  #landing {
+    text-align: center;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #222;
+    color: #eee;
+    border: 1px solid #555;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background-color: #333;
+  }
+
+  #surreal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+
+  .symbol {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0;
+    animation: float 5s linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(-200px) translateX(100px) rotate(360deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="landing">
+  <h1>漂游中…</h1>
+  <button onclick="startSurreal()">更多</button>
+</div>
+
+<div id="surreal"></div>
+
+<script>
+  const symbols = ['?', '....', '空', '¯\\_(ツ)_/¯', 'null', '∅', '？？？', '∆', '我爱沙'];
+  const maxSymbols = 20;
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function createSymbol() {
+    const sym = document.createElement('div');
+    sym.className = 'symbol';
+    sym.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+    sym.style.left = random(0, window.innerWidth) + 'px';
+    sym.style.top = random(0, window.innerHeight) + 'px';
+    sym.style.fontSize = random(16, 48) + 'px';
+    sym.style.animationDuration = random(3, 8) + 's';
+    document.getElementById('surreal').appendChild(sym);
+
+    setTimeout(() => sym.remove(), 8000);
+  }
+
+  let surrealInterval;
+
+  function startSurreal() {
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('surreal').style.display = 'block';
+    document.body.style.background = '#111';
+
+    surrealInterval = setInterval(() => {
+      if (document.querySelectorAll('.symbol').length < maxSymbols) {
+        createSymbol();
+      }
+    }, 500);
+  }
+</script>
+
+</body>
+</html>
